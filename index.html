@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event manager</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Event manager</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">My Events</a></li>
+                <li><a href="#">Statistics</a></li>
+                <li><a href="#">Contacts</a></li>
+            </ul>
+        </nav>
+        <button>Create Event</button>
+    </header>
+    <main class="hero-container">
+        <div class="hero-content">
+            <div class="slider">
+                <div class="slide active">
+                    <h2 class="neon">Create Memorable Events with Ease</h2>
+                </div>
+                <div class="slide">
+                    <h2  class="neon">Organize Your Perfect Celebration</h2>
+                </div>
+                <div class="slide">
+                    <h2  class="neon">Manage Events Like a Pro</h2>
+                </div>
+            </div>
+        </div>
+
+        <div id="events-container" class="events-container">
+        </div>
+    </main>
+    <div class="wave-divider">
+        <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path class="wave-top" d="M0,224L48,213.3C96,203,192,181,288,154.7C384,128,480,96,576,90.7C672,85,768,107,864,144C960,181,1056,235,1152,240C1248,245,1344,203,1392,181.3L1440,160L1440,320L0,320Z"></path>
+        </svg>
+    </div>
+
+
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">15,247</div>
+                <div class="stat-label">Events Created</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">12,500+</div>
+                <div class="stat-label">Happy Clients</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Satisfaction Rate</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Countries Served</div>
+            </div>
+        </div>
+    </section>
+    <div class="wave-divider">
+        <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path class="wave-bottom" d="M0,160L26.7,165.3C53.3,171,107,181,160,186.7C213.3,192,267,192,320,192C373.3,192,427,192,480,186.7C533.3,181,587,171,640,154.7C693.3,139,747,117,800,112C853.3,107,907,117,960,112C1013.3,107,1067,85,1120,85.3C1173.3,85,1227,107,1280,122.7C1333.3,139,1387,149,1413,154.7L1440,160L1440,0L1413.3,0C1386.7,0,1333,0,1280,0C1226.7,0,1173,0,1120,0C1066.7,0,1013,0,960,0C906.7,0,853,0,800,0C746.7,0,693,0,640,0C586.7,0,533,0,480,0C426.7,0,373,0,320,0C266.7,0,213,0,160,0C106.7,0,53,0,27,0L0,0Z"></path></svg>
+    </div>
+    <section class="start-container">
+        <form id="ai-form">
+            <label for="prompt">Опиши свій майбутній івент</label>
+            <input type="text" name="prompt" id="prompt" placeholder="Наприклад: День народження на 20 людей...">
+            <button type="submit">Створити з AI</button>
+        </form>
+    </section>
+
+    <section class="manual-event-section" id="manual-event-section">
+        <div class="manual-event-container">
+            <h2 class="section-title">Створити івент власноруч</h2>
+            <form id="manual-event-form" class="manual-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="event-name">Назва івенту *</label>
+                        <input type="text" id="event-name" name="eventName" required placeholder="День народження, Весілля...">
+                    </div>
+                    <div class="form-group">
+                        <label for="event-type">Тип івенту *</label>
+                        <select id="event-type" name="eventType" required>
+                            <option value="">Оберіть тип</option>
+                            <option value="birthday">День народження</option>
+                            <option value="wedding">Весілля</option>
+                            <option value="corporate">Корпоратив</option>
+                            <option value="conference">Конференція</option>
+                            <option value="party">Вечірка</option>
+                            <option value="other">Інше</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="event-date">Дата івенту *</label>
+                        <input type="date" id="event-date" name="eventDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-time">Час початку *</label>
+                        <input type="time" id="event-time" name="eventTime" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="event-location">Локація</label>
+                        <input type="text" id="event-location" name="eventLocation" placeholder="Адреса проведення">
+                    </div>
+                    <div class="form-group">
+                        <label for="event-guests">Кількість гостей *</label>
+                        <input type="number" id="event-guests" name="eventGuests" required min="1" placeholder="50">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="event-budget">Бюджет (грн) *</label>
+                        <input type="number" id="event-budget" name="eventBudget" required min="0" step="100" placeholder="10000">
+                    </div>
+                    <div class="form-group">
+                        <label for="event-duration">Тривалість (годин)</label>
+                        <input type="number" id="event-duration" name="eventDuration" min="1" max="24" placeholder="4">
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="event-description">Опис івенту</label>
+                    <textarea id="event-description" name="eventDescription" rows="4" placeholder="Додаткова інформація про івент..."></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="needCatering" id="need-catering">
+                        <span>Потрібен кейтеринг</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="needMusic" id="need-music">
+                        <span>Потрібна музика/DJ</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="needPhotographer" id="need-photographer">
+                        <span>Потрібен фотограф</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="needDecorations" id="need-decorations">
+                        <span>Потрібні декорації</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">Створити івент</button>
+            </form>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

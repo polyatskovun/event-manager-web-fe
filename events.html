@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Events - Event Manager</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Event manager</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">My Events</a></li>
+                <li><a href="#">Statistics</a></li>
+                <li><a href="#">Contacts</a></li>
+            </ul>
+        </nav>
+        <button onclick="window.location.href='index.html#manual-event-form'">Create Event</button>
+    </header>
+
+    <section class="events-page">
+        <div class="events-page-container">
+            <h1 class="page-title">Мої івенти</h1>
+            <div class="events-filter">
+                <select id="filter-type">
+                    <option value="all">Всі типи</option>
+                    <option value="birthday">День народження</option>
+                    <option value="wedding">Весілля</option>
+                    <option value="corporate">Корпоратив</option>
+                    <option value="conference">Конференція</option>
+                    <option value="party">Вечірка</option>
+                    <option value="other">Інше</option>
+                </select>
+                <select id="sort-by">
+                    <option value="date-asc">За датою (спочатку нові)</option>
+                    <option value="date-desc">За датою (спочатку старі)</option>
+                    <option value="name">За назвою</option>
+                    <option value="budget">За бюджетом</option>
+                </select>
+            </div>
+
+            <div id="events-list" class="events-grid">
+                <!-- Events will be rendered here by JavaScript -->
+            </div>
+
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+                    <circle cx="60" cy="60" r="50" stroke="#667eea" stroke-width="4" fill="none"/>
+                    <path d="M40 60L55 75L80 45" stroke="#667eea" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h2>Ви ще не створили жодного івенту</h2>
+                <p>Почніть планувати свої події прямо зараз!</p>
+                <button class="create-first-event-btn" onclick="window.location.href='index.html#manual-event-form'">Створити перший івент</button>
+            </div>
+        </div>
+    </section>
+
+    <script src="events.js"></script>
+</body>
+</html>
