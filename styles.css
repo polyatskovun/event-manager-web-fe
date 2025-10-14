@@ -353,7 +353,6 @@ header button:active {
     transform: none;
 }
 
-/* Events Page Styles */
 .events-page {
     background: linear-gradient(135deg, #ff9a56 0%, #ff6b6b 50%, #feca57 100%);
     min-height: 100vh;
@@ -362,7 +361,7 @@ header button:active {
 
 .events-page-container {
     max-width: 1400px;
-    margin: 0 auto;
+    margin: 80px auto;
 }
 
 .page-title {

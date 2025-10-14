@@ -1,12 +1,8 @@
-// Events Page Script
-
-// Get events from localStorage
 function getEvents() {
     const eventsJSON = localStorage.getItem('events');
     return eventsJSON ? JSON.parse(eventsJSON) : [];
 }
 
-// Delete event
 function deleteEvent(eventId) {
     if (confirm('Ви впевнені, що хочете видалити цей івент?')) {
         let events = getEvents();
@@ -16,13 +12,11 @@ function deleteEvent(eventId) {
     }
 }
 
-// Format date for display
 function formatDate(dateString) {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString('uk-UA', options);
 }
 
-// Get type label in Ukrainian
 function getTypeLabel(type) {
     const typeLabels = {
         'birthday': 'День народження',
@@ -35,7 +29,6 @@ function getTypeLabel(type) {
     return typeLabels[type] || type;
 }
 
-// Render single event
 function renderEvent(event) {
     const servicesArray = [];
     if (event.services.catering) servicesArray.push('Кейтеринг');
@@ -90,18 +83,15 @@ function renderEvent(event) {
     `;
 }
 
-// Filter and sort events
 function filterAndSortEvents(events) {
     const filterType = document.getElementById('filter-type').value;
     const sortBy = document.getElementById('sort-by').value;
 
-    // Filter
     let filteredEvents = events;
     if (filterType !== 'all') {
         filteredEvents = events.filter(event => event.type === filterType);
     }
 
-    // Sort
     filteredEvents.sort((a, b) => {
         switch (sortBy) {
             case 'date-asc':
@@ -120,7 +110,6 @@ function filterAndSortEvents(events) {
     return filteredEvents;
 }
 
-// Render all events
 function renderEvents() {
     const eventsList = document.getElementById('events-list');
     const emptyState = document.getElementById('empty-state');
@@ -144,11 +133,9 @@ function renderEvents() {
     }
 }
 
-// Initialize page
 document.addEventListener('DOMContentLoaded', () => {
     renderEvents();
 
-    // Add event listeners for filters
     document.getElementById('filter-type').addEventListener('change', renderEvents);
     document.getElementById('sort-by').addEventListener('change', renderEvents);
 });
