@@ -29,7 +29,7 @@ class EventCard {
         card.className = 'event-card';
 
         card.innerHTML = `
-            <div class="event-card-image" style="background: ${this.imageUrl}">
+            <div class="event-card-image" style="background-image: url('${this.imageUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
                 <span class="event-category">${this.category}</span>
             </div>
             <div class="event-card-content">
@@ -141,42 +141,42 @@ const eventsData = [
         title: 'Birthday Celebration',
         date: 'Year-round',
         description: 'Make your birthday unforgettable with our planning tools and party ideas.',
-        imageUrl: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        imageUrl: './assets/img/happy-birthday.png',
         category: 'Celebration'
     },
     {
         title: 'Halloween Party',
         date: 'October 31',
         description: 'Spooky decorations, costume ideas, and party games for a thrilling Halloween.',
-        imageUrl: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+        imageUrl: './assets/img/happy-halloween.png',
         category: 'Holiday'
     },
     {
         title: 'New Year Party',
         date: 'December 31',
         description: 'Ring in the new year with style! Plan the perfect celebration.',
-        imageUrl: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+        imageUrl: './assets/img/happy-new-year.png',
         category: 'Holiday'
     },
     {
         title: 'Christmas Gathering',
         date: 'December 25',
         description: 'Create magical Christmas moments with family and friends.',
-        imageUrl: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+        imageUrl: './assets/img/merry-christmas.png',
         category: 'Holiday'
     },
     {
         title: 'Wedding Anniversary',
         date: 'Year-round',
         description: 'Celebrate love and commitment with a memorable anniversary event.',
-        imageUrl: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+        imageUrl: './assets/img/marriage.png',
         category: 'Celebration'
     },
     {
         title: 'Graduation Party',
         date: 'Year-round',
         description: 'Honor achievements and celebrate new beginnings with a graduation party.',
-        imageUrl: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
+        imageUrl: './assets/img/graduated.png',
         category: 'Celebration'
     }
 ];
