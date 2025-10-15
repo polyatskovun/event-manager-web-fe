@@ -743,7 +743,7 @@ header button:active {
 }
 
 .circular-carousel-wrapper {
-    height: 450px;
+    height: 550px; /* Збільшено з 450px до 550px */
     overflow: visible;
     position: relative;
     margin: 2rem 0;
@@ -795,7 +795,7 @@ header button:active {
     }
     
     .circular-carousel-wrapper {
-        height: 350px;
+        height: 450px; /* Збільшено з 350px до 450px */
         max-width: 90%;
     }
     
@@ -830,7 +830,7 @@ header button:active {
     }
     
     .circular-carousel-wrapper {
-        height: 300px;
+        height: 400px; /* Збільшено з 300px до 400px */
         max-width: 95%;
     }
     

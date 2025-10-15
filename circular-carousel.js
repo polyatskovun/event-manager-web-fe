@@ -104,16 +104,16 @@ class CircularCarousel {
         
         if (isSmallMobile) {
             cardSize = 160;
-            radius = Math.min(containerWidth * 0.3, 200);
-            angleStep = 35;
+            radius = Math.min(containerWidth * 0.45, 280); // Збільшено з 0.3, 200 до 0.45, 280
+            angleStep = 45;
         } else if (isMobile) {
             cardSize = 200;
-            radius = Math.min(containerWidth * 0.32, 250);
-            angleStep = 32;
+            radius = Math.min(containerWidth * 0.5, 350); // Збільшено з 0.32, 250 до 0.5, 350
+            angleStep = 40;
         } else {
             cardSize = 240;
-            radius = Math.min(containerWidth * 0.35, 300);
-            angleStep = 30;
+            radius = Math.min(containerWidth * 0.55, 450); // Збільшено з 0.35, 300 до 0.55, 450
+            angleStep = 40; // Збільшено з 30 до 40
         }
 
         // Calculate visible cards indices
