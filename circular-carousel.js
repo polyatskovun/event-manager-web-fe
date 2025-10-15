@@ -92,8 +92,9 @@ class CircularCarousel {
     }
 
     updateCarousel() {
-        const containerWidth = this.container.offsetWidth;
-        const containerHeight = this.container.querySelector('.circular-carousel-wrapper')?.offsetHeight || 400;
+        const wrapper = this.container.querySelector('.circular-carousel-wrapper');
+        const containerWidth = wrapper?.offsetWidth || this.container.offsetWidth;
+        const containerHeight = wrapper?.offsetHeight || 400;
         
         // Calculate responsive values
         const isMobile = window.innerWidth <= 768;
@@ -137,18 +138,19 @@ class CircularCarousel {
     positionCard(card, position, containerWidth, containerHeight, radius, angleStep, cardSize) {
         card.style.display = 'block';
         
-        // Calculate arc position
+        // Calculate arc position - ensure proper centering
         const centerX = containerWidth / 2;
-        const centerY = containerHeight * 0.7;
+        const centerY = containerHeight * 0.6;
         
-        // Angle calculation
-        const startAngle = -60; // Start from -60 degrees
+        // Angle calculation for symmetric arc - fix the centering
+        const totalAngle = (this.visibleCards - 1) * angleStep;
+        const startAngle = -totalAngle / 2;
         const angle = startAngle + (position * angleStep);
         const angleRad = (angle * Math.PI) / 180;
         
-        // Calculate position
+        // Calculate position with proper centering - use correct formula
         const x = centerX + Math.sin(angleRad) * radius - (cardSize / 2);
-        const y = centerY - Math.cos(angleRad) * radius * 0.5 - (cardSize / 2);
+        const y = centerY - Math.cos(angleRad) * radius * 0.4 - (cardSize / 2);
         
         // Calculate scale and effects based on position
         const isCenter = position === 2;
@@ -156,7 +158,7 @@ class CircularCarousel {
         const scale = isCenter ? 1.1 : Math.max(0.75, 1 - distanceFromCenter * 0.15);
         const opacity = Math.max(0.5, 1 - distanceFromCenter * 0.25);
         const zIndex = isCenter ? 15 : 10 - distanceFromCenter;
-        const rotation = angle * 0.2; // Subtle rotation
+        const rotation = angle * 0.1;
         
         // Apply transforms and styles
         card.style.transform = `translate(${x}px, ${y}px) scale(${scale}) rotate(${rotation}deg)`;
