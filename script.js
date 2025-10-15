@@ -29,15 +29,7 @@ class EventCard {
         card.className = 'event-card';
 
         card.innerHTML = `
-            <div class="event-card-image" style="background-image: url('${this.imageUrl}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-                <span class="event-category">${this.category}</span>
-            </div>
-            <div class="event-card-content">
-                <h3 class="event-title">${this.title}</h3>
-                <p class="event-date">${this.date}</p>
-                <p class="event-description">${this.description}</p>
-                <button class="event-button">Learn More</button>
-            </div>
+            <div class="event-card-image-only" style="background-image: url('${this.imageUrl}'); background-size: contain; background-position: center; background-repeat: no-repeat;"></div>
         `;
 
         return card;
