@@ -936,3 +936,164 @@ header button:active {
         transform: translateY(-4px);
     }
 }
+
+.circular-carousel-wrapper {
+    height: 400px;
+    perspective: 1000px;
+    perspective-origin: center center;
+    overflow: hidden;
+    position: relative;
+    margin: 2rem 0;
+}
+
+.circular-carousel-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circular-card {
+    padding: 3%;
+    position: absolute;
+    width: 280px;
+    height: 320px;
+    transition: all 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+    cursor: pointer;
+    border-radius: 50%;
+    overflow: hidden;
+        background: linear-gradient(155deg, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 100%);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.circular-card:hover {
+    transform: translateX(var(--x, 0)) translateZ(var(--z, 0)) scale(var(--scale, 1)) translateY(-10px) !important;
+    background: linear-gradient(155deg, rgba(255, 255, 255, 0.1) 50%, #764ba280 100%);
+}
+
+.circular-card.active-card {
+}
+
+.circular-card.active-card::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 23px;
+    z-index: -1;
+    animation: activeCardGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes activeCardGlow {
+    0% {
+        opacity: 0.7;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+}
+
+/* Update event card for circular layout */
+.circular-card .event-card-image-only {
+    height: 100%;
+    border-radius: 20px;
+    position: relative;
+    background-size: cover !important;
+    background-position: center !important;
+    display: flex;
+    align-items: flex-end;
+    padding: 1.5rem;
+}
+
+
+/* Enhanced carousel controls */
+.carousel-controls {
+    display: flex;
+    gap: 1rem;
+    position: relative;
+    z-index: 100;
+}
+
+.carousel-btn {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+    backdrop-filter: blur(10px);
+    color: #ff6b6b;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.carousel-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, white, rgba(255, 255, 255, 0.9));
+    border-color: rgba(255, 107, 107, 0.3);
+}
+
+.carousel-btn:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+/* Mobile responsiveness for circular carousel */
+@media (max-width: 768px) {
+    .circular-carousel-wrapper {
+        height: 300px;
+        perspective: 800px;
+    }
+
+    .circular-card {
+        width: 220px;
+        height: 260px;
+    }
+
+    .carousel-header {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: center;
+        text-align: center;
+    }
+
+    .carousel-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .circular-carousel-wrapper {
+        height: 250px;
+        perspective: 600px;
+    }
+
+    .circular-card {
+        width: 180px;
+        height: 220px;
+    }
+
+    .circular-card .event-card-image-only::after {
+        font-size: 1rem;
+        bottom: 1rem;
+        left: 1rem;
+        right: 1rem;
+    }
+}

@@ -42,28 +42,32 @@ class EventCarousel {
         this.container = document.getElementById(containerId);
         this.events = events;
         this.currentIndex = 0;
-        this.cardsToShow = this.getCardsToShow();
+        this.cardsToShow = 5; // Always show 5 cards for circular effect
         this.init();
     }
 
     getCardsToShow() {
-        if (window.innerWidth <= 768) return 1;
-        if (window.innerWidth <= 1024) return 2;
-        return 3;
+        return 5; // Fixed number for circular layout
     }
 
     init() {
         this.render();
         this.attachEventListeners();
+        
+        // Auto-rotate every 3 seconds
+        this.autoRotate = setInterval(() => {
+            this.next();
+        }, 3000);
 
-        // Update cards to show on resize
-        window.addEventListener('resize', () => {
-            const newCardsToShow = this.getCardsToShow();
-            if (newCardsToShow !== this.cardsToShow) {
-                this.cardsToShow = newCardsToShow;
-                this.currentIndex = 0;
-                this.render();
-            }
+        // Pause auto-rotate on hover
+        this.container.addEventListener('mouseenter', () => {
+            clearInterval(this.autoRotate);
+        });
+
+        this.container.addEventListener('mouseleave', () => {
+            this.autoRotate = setInterval(() => {
+                this.next();
+            }, 3000);
         });
     }
 
@@ -76,13 +80,18 @@ class EventCarousel {
                     <button class="carousel-btn next-btn">→</button>
                 </div>
             </div>
-            <div class="carousel-wrapper">
-                <div class="carousel-track"></div>
+            <div class="circular-carousel-wrapper">
+                <div class="circular-carousel-track"></div>
             </div>
         `;
 
-        const track = this.container.querySelector('.carousel-track');
-        this.events.forEach(eventData => {
+        const track = this.container.querySelector('.circular-carousel-track');
+        
+        // Create multiple sets of events for infinite loop
+        const totalCards = this.events.length * 3; // Triple the events for seamless loop
+        for (let i = 0; i < totalCards; i++) {
+            const eventIndex = i % this.events.length;
+            const eventData = this.events[eventIndex];
             const event = new EventCard(
                 eventData.title,
                 eventData.date,
@@ -90,8 +99,11 @@ class EventCarousel {
                 eventData.imageUrl,
                 eventData.category
             );
-            track.appendChild(event.render());
-        });
+            const cardElement = event.render();
+            cardElement.classList.add('circular-card');
+            cardElement.dataset.index = i;
+            track.appendChild(cardElement);
+        }
 
         this.updateCarousel();
     }
@@ -105,25 +117,58 @@ class EventCarousel {
     }
 
     updateCarousel() {
-        const track = this.container.querySelector('.carousel-track');
-        const cardWidth = 100 / this.cardsToShow;
-        const offset = -(this.currentIndex * cardWidth);
-        track.style.transform = `translateX(${offset}%)`;
+        const track = this.container.querySelector('.circular-carousel-track');
+        const cards = track.querySelectorAll('.circular-card');
+        const totalCards = cards.length;
+        const centerIndex = Math.floor(totalCards / 2);
+        
+        cards.forEach((card, index) => {
+            // Calculate position relative to current center
+            let relativeIndex = index - (centerIndex + this.currentIndex);
+            
+            // Wrap around for circular effect
+            if (relativeIndex > totalCards / 2) relativeIndex -= totalCards;
+            if (relativeIndex < -totalCards / 2) relativeIndex += totalCards;
+            
+            // Only show cards within visible range
+            if (Math.abs(relativeIndex) <= 2) {
+                card.style.display = 'block';
+                
+                // Calculate curve position
+                const angle = relativeIndex * 60; // 60 degrees between cards
+                const radius = 280;
+                const x = Math.sin(angle * Math.PI / 180) * radius;
+                const z = Math.cos(angle * Math.PI / 180) * radius - radius;
+                
+                // Scale and opacity based on position
+                const isCenter = relativeIndex === 0;
+                const scale = isCenter ? 1.2 : Math.max(0.6, 1 - Math.abs(relativeIndex) * 0.4);
+                const opacity = Math.max(0.4, 1 - Math.abs(relativeIndex) * 0.3);
+                
+                card.style.transform = `translateX(${x}px) translateZ(${z}px) scale(${scale})`;
+                card.style.opacity = opacity;
+                card.style.zIndex = isCenter ? 10 : 5 - Math.abs(relativeIndex);
+                
+                // Add active class to center card
+                if (isCenter) {
+                    card.classList.add('active-card');
+                } else {
+                    card.classList.remove('active-card');
+                }
+            } else {
+                card.style.display = 'none';
+            }
+        });
     }
 
     next() {
-        const maxIndex = this.events.length - this.cardsToShow;
-        if (this.currentIndex < maxIndex) {
-            this.currentIndex++;
-            this.updateCarousel();
-        }
+        this.currentIndex = (this.currentIndex + 1) % this.events.length;
+        this.updateCarousel();
     }
 
     prev() {
-        if (this.currentIndex > 0) {
-            this.currentIndex--;
-            this.updateCarousel();
-        }
+        this.currentIndex = (this.currentIndex - 1 + this.events.length) % this.events.length;
+        this.updateCarousel();
     }
 }
 
