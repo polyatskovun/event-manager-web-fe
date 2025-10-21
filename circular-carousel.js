@@ -25,13 +25,7 @@ class CircularCarousel {
 
     render() {
         this.container.innerHTML = `
-            <div class="carousel-header">
-                <h2>Popular Events</h2>
-                <div class="carousel-controls">
-                    <button class="carousel-btn prev-btn" aria-label="Previous events">←</button>
-                    <button class="carousel-btn next-btn" aria-label="Next events">→</button>
-                </div>
-            </div>
+            <h2 class="carousel-header">Popular Events</h2>
             <div class="circular-carousel-wrapper">
                 <div class="circular-carousel-track"></div>
             </div>

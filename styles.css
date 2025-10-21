@@ -11,6 +11,19 @@ body {
     line-height: 1.6;
 }
 
+.logo-bg {
+    position: absolute;
+    left: -5px;
+    width: 180px;
+    z-index: -1;
+}
+
+.logo {
+    height: 80px;
+    margin: auto 1rem;
+}
+
+
 header {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(253, 247, 250, 0.03) 100%);
     backdrop-filter: blur(12px);
@@ -350,7 +363,6 @@ header button:active {
 .submit-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
-    transform: none;
 }
 
 .events-page {
@@ -664,72 +676,10 @@ header button:active {
 }
 
 .carousel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.carousel-header h2 {
     font-size: 2.5rem;
     font-weight: 700;
     color: white;
     margin: 0;
-}
-
-.carousel-controls {
-    display: flex;
-    gap: 1rem;
-}
-
-.carousel-btn {
-    background-color: white;
-    color: #ff6b6b;
-    border: none;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.carousel-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.carousel-btn:active {
-    transform: translateY(0);
-}
-
-.carousel-wrapper {
-    overflow: hidden;
-    width: 100%;
-    padding: 0.5rem 0;
-}
-
-.carousel-track {
-    display: flex;
-    gap: 1.5rem;
-    transition: transform 0.5s ease;
-}
-
-.event-card {
-    flex: 0 0 calc(33.333% - 1rem);
-    min-width: calc(33.333% - 1rem);
-    border-radius: 16px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-}
-
-.event-card:hover {
-    transform: translateY(-8px);
 }
 
 .event-card-image-only {
@@ -743,7 +693,7 @@ header button:active {
 }
 
 .circular-carousel-wrapper {
-    height: 550px; /* Збільшено з 450px до 550px */
+    height: 350px;
     overflow: visible;
     position: relative;
     margin: 2rem 0;
