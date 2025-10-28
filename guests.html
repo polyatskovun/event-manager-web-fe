@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guests - Event Manager</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Event manager</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">My Events</a></li>
+                <li><a href="guests.html">Guests</a></li>
+                <li><a href="#statistics">Statistics</a></li>
+                <li><a href="#contacts">Contacts</a></li>
+            </ul>
+        </nav>
+        <div class="header-auth">
+            <button id="auth-button">Login</button>
+        </div>
+    </header>
+
+    <section class="guests-page">
+        <div class="guests-page-container">
+            <div class="page-header">
+                <h1 class="page-title">Мої гості</h1>
+                <button class="btn-add-new" onclick="openGuestModal()">
+                    <span class="btn-icon">+</span>
+                    Додати гостя
+                </button>
+            </div>
+
+            <div class="guests-search">
+                <input type="text" id="search-guest" placeholder="Пошук гостя за ім'ям або email...">
+            </div>
+
+            <div id="guests-list" class="guests-grid">
+                <!-- Guests will be rendered here by JavaScript -->
+            </div>
+
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+                    <circle cx="60" cy="60" r="50" stroke="#667eea" stroke-width="4" fill="none"/>
+                    <path d="M40 60L55 75L80 45" stroke="#667eea" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h2>У вас ще немає жодного гостя</h2>
+                <p>Додайте свого першого гостя прямо зараз!</p>
+                <button class="create-first-event-btn" onclick="openGuestModal()">Додати першого гостя</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guest Modal (Create/Edit) -->
+    <div id="guest-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Додати гостя</h2>
+                <span class="modal-close" onclick="closeGuestModal()">&times;</span>
+            </div>
+
+            <div class="modal-body">
+                <form id="guest-form">
+                    <div class="form-group">
+                        <label for="guest-name">Ім'я *</label>
+                        <input type="text" id="guest-name" required placeholder="Ім'я гостя">
+                    </div>
+                    <div class="form-group">
+                        <label for="guest-email">Email</label>
+                        <input type="email" id="guest-email" placeholder="email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="guest-phone">Телефон</label>
+                        <input type="tel" id="guest-phone" placeholder="+380XXXXXXXXX">
+                    </div>
+                    <button type="submit" class="modal-btn modal-btn-primary" id="submit-btn">Створити</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="guests.js"></script>
+</body>
+</html>

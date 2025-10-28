@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Event Manager</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicons/favicon-16x16.png">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <img src="./assets/img/blob-haikei.svg" alt="Event manager logo bg" class="logo-bg">
+        <img src="./assets/img/logo.png" alt="Event manager logo" class="logo">
+
+        <h1>Event manager</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">My Events</a></li>
+                <li><a href="guests.html">Guests</a></li>
+                <li><a href="#">Statistics</a></li>
+                <li><a href="#">Contacts</a></li>
+            </ul>
+        </nav>
+        <button onclick="window.location.href='login.html'">Login</button>
+    </header>
+
+    <main class="login-container">
+        <div class="login-card">
+            <h2 class="login-title" id="form-title">Вхід до системи</h2>
+            <p class="login-subtitle" id="form-subtitle">Увійдіть, щоб керувати своїми івентами</p>
+
+            <form id="auth-form" class="login-form">
+                <div class="form-group" id="username-group">
+                    <label for="username" id="username-label">Ім'я користувача або Email</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        required
+                        placeholder="Введіть ім'я користувача або email"
+                        autocomplete="username"
+                    >
+                </div>
+
+                <div class="form-group" id="email-group" style="display: none;">
+                    <label for="email">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Введіть email"
+                        autocomplete="email"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                        placeholder="Введіть пароль"
+                        autocomplete="current-password"
+                    >
+                </div>
+
+                <div class="form-group" id="remember-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="remember" id="remember">
+                        <span>Запам'ятати мене</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="login-btn" id="submit-btn">Увійти</button>
+
+                <div id="error-message" class="error-message" style="display: none;"></div>
+                <div id="success-message" class="success-message" style="display: none;"></div>
+            </form>
+
+            <div class="login-footer">
+                <p id="toggle-text">Немає акаунту? <a href="#" id="toggle-link" onclick="toggleAuthMode(event)">Зареєструватися</a></p>
+            </div>
+        </div>
+    </main>
+
+    <script src="login.js"></script>
+</body>
+</html>

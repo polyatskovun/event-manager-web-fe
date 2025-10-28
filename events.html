@@ -13,25 +13,35 @@
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="events.html">My Events</a></li>
+                <li><a href="guests.html">Guests</a></li>
                 <li><a href="#">Statistics</a></li>
                 <li><a href="#">Contacts</a></li>
             </ul>
         </nav>
-        <button onclick="window.location.href='index.html#manual-event-form'">Create Event</button>
+        <div class="header-auth">
+            <button id="auth-button">Login</button>
+        </div>
     </header>
 
     <section class="events-page">
         <div class="events-page-container">
-            <h1 class="page-title">Мої івенти</h1>
+            <div class="page-header">
+                <h1 class="page-title">Мої івенти</h1>
+                <button class="btn-add-new" onclick="openCreateEventModal()">
+                    <span class="btn-icon">+</span>
+                    Створити івент
+                </button>
+            </div>
             <div class="events-filter">
                 <select id="filter-type">
                     <option value="all">Всі типи</option>
-                    <option value="birthday">День народження</option>
-                    <option value="wedding">Весілля</option>
-                    <option value="corporate">Корпоратив</option>
-                    <option value="conference">Конференція</option>
-                    <option value="party">Вечірка</option>
-                    <option value="other">Інше</option>
+                    <option value="BIRTHDAY">День народження</option>
+                    <option value="WEDDING">Весілля</option>
+                    <option value="CORPORATE">Корпоратив</option>
+                    <option value="CONFERENCE">Конференція</option>
+                    <option value="PARTY">Вечірка</option>
+                    <option value="CHARITY">Благодійність</option>
+                    <option value="OTHER">Інше</option>
                 </select>
                 <select id="sort-by">
                     <option value="date-asc">За датою (спочатку нові)</option>
@@ -57,6 +67,143 @@
         </div>
     </section>
 
+    <!-- Add Guest Modal -->
+    <div id="add-guest-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Додати гостя</h2>
+                <span class="modal-close" onclick="closeAddGuestModal()">&times;</span>
+            </div>
+
+            <div class="modal-body">
+                <!-- Tab buttons -->
+                <div class="modal-tabs">
+                    <button class="tab-button active" onclick="switchTab('existing')">Вибрати існуючого</button>
+                    <button class="tab-button" onclick="switchTab('new')">Створити нового</button>
+                </div>
+
+                <!-- Existing guest tab -->
+                <div id="existing-guest-tab" class="tab-content active">
+                    <div class="form-group">
+                        <label for="existing-guest-select">Виберіть гостя:</label>
+                        <select id="existing-guest-select" class="modal-select">
+                            <option value="">Завантаження...</option>
+                        </select>
+                    </div>
+                    <button class="modal-btn modal-btn-primary" onclick="addExistingGuest()">Додати</button>
+                </div>
+
+                <!-- New guest tab -->
+                <div id="new-guest-tab" class="tab-content">
+                    <form id="new-guest-form">
+                        <div class="form-group">
+                            <label for="new-guest-name">Ім'я *</label>
+                            <input type="text" id="new-guest-name" required placeholder="Ім'я гостя">
+                        </div>
+                        <div class="form-group">
+                            <label for="new-guest-email">Email</label>
+                            <input type="email" id="new-guest-email" placeholder="email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="new-guest-phone">Телефон</label>
+                            <input type="tel" id="new-guest-phone" placeholder="+380XXXXXXXXX">
+                        </div>
+                        <button type="submit" class="modal-btn modal-btn-primary">Створити і додати</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Option Modal -->
+    <div id="add-option-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Додати опцію</h2>
+                <span class="modal-close" onclick="closeAddOptionModal()">&times;</span>
+            </div>
+
+            <div class="modal-body">
+                <form id="new-option-form">
+                    <div class="form-group">
+                        <label for="new-option-name">Назва опції *</label>
+                        <input type="text" id="new-option-name" required placeholder="Назва завдання">
+                    </div>
+                    <button type="submit" class="modal-btn modal-btn-primary">Створити</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Event Modal -->
+    <div id="create-event-modal" class="modal" style="display: none;">
+        <div class="modal-content modal-content-large">
+            <div class="modal-header">
+                <h2>Створити новий івент</h2>
+                <span class="modal-close" onclick="closeCreateEventModal()">&times;</span>
+            </div>
+
+            <div class="modal-body">
+                <form id="create-event-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-name">Назва івенту *</label>
+                            <input type="text" id="event-name" required placeholder="Назва івенту">
+                        </div>
+                        <div class="form-group">
+                            <label for="event-type">Тип івенту *</label>
+                            <select id="event-type" required>
+                                <option value="">Оберіть тип</option>
+                                <option value="BIRTHDAY">День народження</option>
+                                <option value="WEDDING">Весілля</option>
+                                <option value="CORPORATE">Корпоратив</option>
+                                <option value="CONFERENCE">Конференція</option>
+                                <option value="PARTY">Вечірка</option>
+                                <option value="CHARITY">Благодійність</option>
+                                <option value="OTHER">Інше</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-date">Дата *</label>
+                            <input type="date" id="event-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-time">Час</label>
+                            <input type="time" id="event-time">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-location">Локація</label>
+                            <input type="text" id="event-location" placeholder="Адреса проведення">
+                        </div>
+                        <div class="form-group">
+                            <label for="event-duration">Тривалість (години)</label>
+                            <input type="number" id="event-duration" min="0" step="0.5" placeholder="2">
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="event-budget">Бюджет (UAH)</label>
+                        <input type="number" id="event-budget" min="0" placeholder="10000">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="event-description">Опис</label>
+                        <textarea id="event-description" rows="4" placeholder="Опис івенту..."></textarea>
+                    </div>
+
+                    <button type="submit" class="modal-btn modal-btn-primary">Створити івент</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
     <script src="events.js"></script>
 </body>
 </html>

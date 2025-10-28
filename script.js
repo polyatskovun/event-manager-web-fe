@@ -36,7 +36,6 @@ class EventCard {
     }
 }
 
-// Event data
 const eventsData = [
     {
         title: 'Birthday Celebration',
@@ -153,15 +152,11 @@ class StatsAnimator {
     }
 }
 
-// Initialize carousel and stats animation when DOM is loaded
+// Initialize stats animation when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize circular carousel
-    const carousel = new CircularCarousel('events-container', eventsData);
-    
-    // Store carousel instance globally for potential external access
-    window.eventCarousel = carousel;
-    
     new StatsAnimator();
+
+    // Note: Circular carousel is now handled by React (see carousel-react.jsx)
 });
 
 // Mock function for testing without OpenAI API (when quota is exceeded)
@@ -381,52 +376,172 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Set default values for form fields
+    const setDefaultValues = () => {
+        const eventDateInput = document.getElementById('event-date');
+        const eventTimeInput = document.getElementById('event-time');
+        const eventDurationInput = document.getElementById('event-duration');
+        const eventBudgetInput = document.getElementById('event-budget');
+
+        // Set date to next week if empty
+        if (eventDateInput && !eventDateInput.value) {
+            const nextWeek = new Date();
+            nextWeek.setDate(nextWeek.getDate() + 7);
+            eventDateInput.value = nextWeek.toISOString().split('T')[0];
+        }
+
+        // Set time to 18:00 if empty
+        if (eventTimeInput && !eventTimeInput.value) {
+            eventTimeInput.value = '18:00';
+        }
+
+        // Set duration to 4 hours if empty
+        if (eventDurationInput && !eventDurationInput.value) {
+            eventDurationInput.value = '4';
+        }
+
+        // Set budget placeholder
+        if (eventBudgetInput && !eventBudgetInput.value) {
+            eventBudgetInput.placeholder = '10000';
+        }
+    };
+
+    // Call default values on page load
+    setDefaultValues();
+
+    // Show auth status
+    const showAuthStatus = () => {
+        const authStatus = document.getElementById('auth-status');
+        const token = localStorage.getItem('authToken');
+
+        if (authStatus) {
+            if (token) {
+                authStatus.style.display = 'block';
+                authStatus.style.backgroundColor = '#d4edda';
+                authStatus.style.color = '#155724';
+                authStatus.style.border = '1px solid #c3e6cb';
+                authStatus.innerHTML = '✓ Ви авторизовані. Можете створювати івенти!';
+            } else {
+                authStatus.style.display = 'block';
+                authStatus.style.backgroundColor = '#fff3cd';
+                authStatus.style.color = '#856404';
+                authStatus.style.border = '1px solid #ffeeba';
+                authStatus.innerHTML = '⚠ Для створення івентів потрібно <a href="login.html" style="color: #667eea; text-decoration: underline;">увійти в систему</a>';
+            }
+        }
+    };
+
+    // Show auth status on page load
+    showAuthStatus();
+
     // Manual event form handler
     const manualForm = document.querySelector('#manual-event-form');
 
     if (manualForm) {
-        manualForm.addEventListener('submit', (e) => {
+        manualForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            // Check authentication
+            const token = localStorage.getItem('authToken');
+            console.log('Auth token check:', token ? 'Token exists' : 'No token');
+
+            if (!token) {
+                const shouldLogin = confirm('Для створення івентів потрібно увійти в систему.\nБажаєте перейти на сторінку входу?');
+                if (shouldLogin) {
+                    window.location.href = 'login.html';
+                }
+                return;
+            }
 
             // Collect form data
             const formData = new FormData(manualForm);
+
+            // Convert type to uppercase (backend expects BIRTHDAY, not birthday)
+            const eventType = formData.get('eventType').toUpperCase();
+
+            // Prepare event data for API (matching backend Event DTO)
             const eventData = {
-                id: Date.now().toString(), // Generate unique ID
                 name: formData.get('eventName'),
-                type: formData.get('eventType'),
+                type: eventType,
                 date: formData.get('eventDate'),
                 time: formData.get('eventTime'),
-                location: formData.get('eventLocation'),
-                guests: formData.get('eventGuests'),
-                budget: formData.get('eventBudget'),
-                duration: formData.get('eventDuration'),
-                description: formData.get('eventDescription'),
-                services: {
-                    catering: formData.get('needCatering') === 'on',
-                    music: formData.get('needMusic') === 'on',
-                    photographer: formData.get('needPhotographer') === 'on',
-                    decorations: formData.get('needDecorations') === 'on'
-                },
-                createdAt: new Date().toISOString()
+                location: formData.get('eventLocation') || null,
+                budget: parseFloat(formData.get('eventBudget')) || null,
+                duration: parseInt(formData.get('eventDuration')) || null,
+                description: formData.get('eventDescription') || null,
+                guests: [], // Empty guests list initially
+                options: [] // We'll add options (services) separately
             };
 
-            // Save to localStorage
-            const events = JSON.parse(localStorage.getItem('events') || '[]');
-            events.push(eventData);
-            localStorage.setItem('events', JSON.stringify(events));
+            // Add options based on selected services
+            const services = [];
+            if (formData.get('needCatering') === 'on') {
+                services.push({ name: 'Кейтеринг', done: false });
+            }
+            if (formData.get('needMusic') === 'on') {
+                services.push({ name: 'Музика/DJ', done: false });
+            }
+            if (formData.get('needPhotographer') === 'on') {
+                services.push({ name: 'Фотограф', done: false });
+            }
+            if (formData.get('needDecorations') === 'on') {
+                services.push({ name: 'Декорації', done: false });
+            }
+            eventData.options = services;
 
-            console.log('Event data:', eventData);
+            console.log('Sending event data to API:', eventData);
 
-            // Display success message
-            const locationText = eventData.location || 'Не вказано';
-            alert(`Івент "${eventData.name}" успішно створено!\n\nДата: ${eventData.date}\nЧас: ${eventData.time}\nЛокація: ${locationText}\nГостей: ${eventData.guests}\nБюджет: ${eventData.budget} грн`);
+            // Disable submit button
+            const submitButton = manualForm.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Створення...';
 
-            // Reset form
-            manualForm.reset();
+            try {
+                // Send to backend API
+                const response = await fetch('http://localhost:8080/api/events', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(eventData)
+                });
 
-            // Redirect to events page
-            if (confirm('Бажаєте переглянути всі івенти?')) {
-                window.location.href = 'events.html';
+                if (response.status === 401 || response.status === 403) {
+                    alert('Ваша сесія закінчилась. Будь ласка, увійдіть знову.');
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('user');
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
+                }
+
+                const createdEvent = await response.json();
+                console.log('Event created successfully:', createdEvent);
+
+                // Display success message
+                const locationText = eventData.location || 'Не вказано';
+                alert(`Івент "${eventData.name}" успішно створено!\n\nДата: ${eventData.date}\nЧас: ${eventData.time}\nЛокація: ${locationText}\nБюджет: ${eventData.budget} грн`);
+
+                // Reset form
+                manualForm.reset();
+
+                // Redirect to events page
+                if (confirm('Бажаєте переглянути всі івенти?')) {
+                    window.location.href = 'events.html';
+                }
+
+            } catch (error) {
+                console.error('Error creating event:', error);
+                alert('Помилка при створенні івенту: ' + error.message);
+            } finally {
+                // Re-enable submit button
+                submitButton.disabled = false;
+                submitButton.textContent = 'Створити івент';
             }
         });
     }
