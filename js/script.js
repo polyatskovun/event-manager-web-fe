@@ -448,7 +448,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!token) {
                 const shouldLogin = confirm('Для створення івентів потрібно увійти в систему.\nБажаєте перейти на сторінку входу?');
                 if (shouldLogin) {
-                    window.location.href = 'login.html';
+                    window.location.href = 'pages/login.html';
                 }
                 return;
             }
@@ -511,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert('Ваша сесія закінчилась. Будь ласка, увійдіть знову.');
                     localStorage.removeItem('authToken');
                     localStorage.removeItem('user');
-                    window.location.href = 'login.html';
+                    window.location.href = 'pages/login.html';
                     return;
                 }
 

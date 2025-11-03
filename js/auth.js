@@ -12,7 +12,9 @@ function logout() {
     localStorage.removeItem('user');
     localStorage.removeItem('rememberMe');
 
-    window.location.href = 'login.html';
+    // Check if we're already in pages folder or not
+    const isInPagesFolder = window.location.pathname.includes('/pages/');
+    window.location.href = isInPagesFolder ? 'login.html' : 'pages/login.html';
 }
 
 function updateHeaderAuth() {
@@ -43,7 +45,8 @@ function updateHeaderAuth() {
     } else {
         // Show Login button
         headerButton.textContent = 'Login';
-        headerButton.onclick = () => window.location.href = 'login.html';
+        const isInPagesFolder = window.location.pathname.includes('/pages/');
+        headerButton.onclick = () => window.location.href = isInPagesFolder ? 'login.html' : 'pages/login.html';
     }
 }
 
